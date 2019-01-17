@@ -1,5 +1,8 @@
-# vscode settings
-.vscode/*
-
 # ipynb checkpoints
 .ipynb_checkpoints/*
+
+# python cache
+__pycache__/*
+
+# vscode settings
+.vscode/*
