@@ -3,7 +3,7 @@ import plotly.offline as offline_py
 
 def spark_shape(df):
     """
-    Return a tuple representing the dimensionality of the Spark Dataframe
+    Returns a tuple representing the dimensionality of the Spark Dataframe
     
     Args:
     df pyspark.sql.dataframe.DataFrame: Return shape of this Spark dataframe
@@ -40,29 +40,28 @@ def gender_dist(df):
     fig = go.Figure(data = data, layout = layout)
     offline_py.iplot(fig)
 
-# def page_dist(c_df, nc_df):
-#     """
-#     Plots distribution of chu
-#     """
+def page_dist(c_df, nc_df):
+    """
+    Plots distribution of pages visited based on churn
+    """
     
-#     trace_c = go.Bar(
-#         x = c_df['page'],
-#         y = c_df['cFreq'],
-#         name = "Churn"
-#     )
+    trace_c = go.Bar(
+        x = c_df['page'],
+        y = c_df['cFreq'],
+        name = "Churn"
+    )
 
-#     trace_nc = go.Bar(
-#         x = nc_df['page'],
-#         y = nc_df['ncFreq'],
-#         name = "Not Churn"
-#     )
+    trace_nc = go.Bar(
+        x = nc_df['page'],
+        y = nc_df['ncFreq'],
+        name = "Not Churn"
+    )
 
-#     data = [trace_c, trace_nc]
-#     layout = go.Layout(
-#         barmode = 'group'
-#     )
+    data = [trace_c, trace_nc]
+    layout = go.Layout(
+        barmode = 'group'
+    )
 
-#     fig = go.Figure(data = data, layout = layout)
+    fig = go.Figure(data = data, layout = layout)
 
-#     offline_py.iplot(fig)
-
+    offline_py.iplot(fig)
