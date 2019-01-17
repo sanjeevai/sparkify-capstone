@@ -17,7 +17,7 @@ def spark_shape(df):
 
 def gender_dist(df):
     """
-    Plots distribution of churn based on gender
+    Plots distribution of gender based on churn
     """
     trace_c = go.Bar(
         x = df.query(' isChurn ')['gender'],
@@ -29,7 +29,7 @@ def gender_dist(df):
         x = df.query(' not isChurn ')['gender'],
         y = df.query(' not isChurn ')['count'],
         name = "Not Churn"
-    )
+    )s
 
     data = [trace_c, trace_nc]
 
@@ -39,3 +39,30 @@ def gender_dist(df):
 
     fig = go.Figure(data = data, layout = layout)
     offline_py.iplot(fig)
+
+# def page_dist(c_df, nc_df):
+#     """
+#     Plots distribution of chu
+#     """
+    
+#     trace_c = go.Bar(
+#         x = c_df['page'],
+#         y = c_df['cFreq'],
+#         name = "Churn"
+#     )
+
+#     trace_nc = go.Bar(
+#         x = nc_df['page'],
+#         y = nc_df['ncFreq'],
+#         name = "Not Churn"
+#     )
+
+#     data = [trace_c, trace_nc]
+#     layout = go.Layout(
+#         barmode = 'group'
+#     )
+
+#     fig = go.Figure(data = data, layout = layout)
+
+#     offline_py.iplot(fig)
+
