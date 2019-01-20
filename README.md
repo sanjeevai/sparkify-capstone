@@ -142,7 +142,7 @@ Males are more in number.
 
 <img src="./img/page_churn_dist.png" alt="page_churn_dist" width="100%">
 
-No stronf conclusion can be drawn from this graph.
+No strong conclusion can be drawn from this graph.
 
 3. Distribution of hour based on churn
 
