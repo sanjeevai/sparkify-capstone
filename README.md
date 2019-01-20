@@ -178,9 +178,7 @@ at the EOM.
 ## Files
 
 <pre>
-.
-|
-+-+helper.py
+
 </pre>
 # Sparkify-capstone
 Data Analysis in Spark to Identify Customer Churn for fictional music service(like Spotify)
