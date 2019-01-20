@@ -181,7 +181,7 @@ at the EOM.
 
 </pre>
 # Sparkify-capstone
-Data Analysis in Spark to Identify Customer Churn for fictional music service(like Spotify)
+Data Analysis to Identify Customer Churn for fictional music service(like Spotify)
 
 References
 - getting dummies like pandas in pySpark - https://stackoverflow.com/questions/42805663/e-num-get-dummies-in-pySpark
