@@ -1,5 +1,6 @@
 import numpy as np
 import plotly.graph_objs as go
+# import plotly.io as pio
 import plotly.offline as offline_py
 
 def spark_shape(df):
@@ -41,7 +42,14 @@ def gender_dist(df):
     data = [trace_c, trace_nc]
 
     layout = go.Layout(
-        barmode= 'group'
+        title = "DISTRIBUTION OF GENDER <br> BASED ON CHURN",
+        xaxis = {
+            'title': 'GENDER'
+        },
+        yaxis = {
+            'title': "PROPORTION"
+        },
+        barmode = 'group'
     )
 
     fig = go.Figure(data = data, layout = layout)
@@ -58,14 +66,22 @@ def page_dist(df):
 
     data = [trace0]
     layout = go.Layout(
+        title = "DISTRIBUTION OF <br> PAGES",
         xaxis = {
+            'title': "TYPE OF <br> PAGE",
             'automargin': True
+        },
+        yaxis = {
+            'title': "PROPORTION",
+            'automargin': True,
         }
     )
 
     fig = go.Figure(data = data, layout = layout)
 
     offline_py.iplot(fig)
+    
+#     pio.write_image(fig, "img/page_dist1.png")
 
 def page_dist_2(df):
     """
@@ -80,14 +96,23 @@ def page_dist_2(df):
     data = [trace0]
 
     layout = go.Layout(
+        title = "DISTRIBUTION OF <br> PAGES",
         xaxis = {
+            'title': "TYPE OF <br> PAGE",
             'automargin': True
-        }
+        },
+        yaxis = {
+            'title': "PROPORTION",
+            'automargin': True,
+        },
     )
 
     fig = go.Figure(data = data, layout = layout)
 
     offline_py.iplot(fig)
+    
+#     pio.write_image(fig, "img/page_dist2.png")
+    
 def page_dist_3(c_df, nc_df):
     """
     Plots distribution of pages visited based on churn
@@ -113,10 +138,16 @@ def page_dist_3(c_df, nc_df):
 
     data = [trace_c, trace_nc]
     layout = go.Layout(
+        title = "DISTRIBUTION OF <br> PAGES",
         barmode = 'group',
         xaxis = {
+            'title': "TYPE OF <br> PAGE",
             'automargin': True,
-        }
+        },
+        yaxis = {
+            'title': "COUNT",
+            'automargin': True,
+        },
     )
 
     fig = go.Figure(data = data, layout = layout)
@@ -132,8 +163,21 @@ def plot_levels(df):
         x = df["level"].value_counts().index,
         y = df["level"].value_counts().values / df.shape[0]
     )
+    
+    layout = go.Layout(
+        title = "DISTRIBUTION OF LEVEL",
+        xaxis = {
+            'title': 'LEVEL',
+        },
+        yaxis = {
+            'title': 'PROPORTION',
+        },
+    )
     data = [trace]
-    offline_py.iplot(data)
+    
+    fig = go.Figure(data = data, layout = layout)
+
+    offline_py.iplot(fig)
 
 def plot_hod(c_df, nc_df):
     trace_c = go.Bar(
@@ -156,9 +200,10 @@ def plot_hod(c_df, nc_df):
     data = [trace_c, trace_nc]
 
     layout = go.Layout(
+        title = 'DISTRIBUTION OF HOUR <br> BASED ON CHURN',
         barmode = 'group',
         xaxis = {
-            'title': 'Hour',
+            'title': 'HOUR',
             'tickmode': 'linear',
             'ticks': 'outside',
             'tick0': 0,
@@ -166,7 +211,7 @@ def plot_hod(c_df, nc_df):
             'tickcolor': '#000'
         },
         yaxis = {
-            'title': 'Proportion',
+            'title': 'PROPORTION',
             'tickmode': 'linear',
             'ticks': 'outside',
             'tick0': 0,
@@ -184,10 +229,11 @@ def plot_hod(c_df, nc_df):
                     'color': 'rgb(255, 0, 0)',
                 }
             }
-        ]
+        ],
     )
 
     fig = go.Figure(data=data, layout=layout)
+    
     offline_py.iplot(fig)
 
 def plot_diff_hod(c_df, nc_df):
@@ -197,27 +243,29 @@ def plot_diff_hod(c_df, nc_df):
     )
 
     data = [trace_diff]
-    layout = {
-        'xaxis' : {
-            'title': 'Hour',
+    layout = go.Layout(
+        title = "DIFFERENCE BETWEEN NON-CHURN AND CHURN USERS <br> HOUR DISTRIBUTION",
+        xaxis = {
+            'title': 'HOUR',
             'tickmode': 'linear',
             'ticks': 'outside',
             'tick0': 0,
             'dtick': 1.0,
             'tickcolor': '#000'
         },
-        'yaxis' : {
+        yaxis = {
             'automargin': True,
-            'title': 'Non-Churn Proportion minus<br> Churn Proportion <br>',
+            'title': 'NON-CHURN PROPORTION MINUS <br> CHURN PROPORTION',
             'tickmode': 'linear',
             'ticks': 'outside',
             'tick0': 0,
             'dtick': 0.001,
             'tickcolor': '#000'
         },
-    }
+    )
 
     fig = go.Figure(data=data, layout=layout)
+    
     offline_py.iplot(fig)
 
 def plot_dow(c_df, nc_df):
@@ -239,25 +287,29 @@ def plot_dow(c_df, nc_df):
     )
 
     data = [trace_c, trace_nc]
-    layout = {
-        'barmode': 'group',
-        'xaxis' : {
+    layout = go.Layout(
+        barmode = 'group',
+        title = 'DISTRIBUTION OF WEEKDAY <br> BASED ON CHURN',
+        xaxis = {
+            'title': 'WEEKDAY (0 IS MONDAY)',
             'tickmode': 'linear',
             'ticks': 'outside',
             'tick0': 0,
             'dtick': 1.0,
             'tickcolor': '#000'
         },
-        'yaxis' : {
+        yaxis = {
+            'title': 'PROPORTION',
             'tickmode': 'linear',
             'ticks': 'outside',
             'tick0': 0,
-            'dtick': 0.01,
+            'dtick': 0.02,
             'tickcolor': '#000'
         },
-    }
+    )
 
     fig = go.Figure(data=data, layout=layout)
+    
     offline_py.iplot(fig)
 
 def plot_dom(c_df, nc_df):
@@ -279,61 +331,73 @@ def plot_dom(c_df, nc_df):
     )
 
     data = [trace_c, trace_nc]
-    layout = {
-        'barmode': 'group',
-        'xaxis' : {
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 1.0,
-            'tickcolor': '#000'
+    
+    layout = go.Layout(
+        barmode = "group",
+        title = "DISTRIBUTION OF DAY OF MONTH <br> BASED ON CHURN",
+        xaxis = {
+            "title": "DAY OF MONTH",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 1.0,
+            "tickcolor": "#000"
         },
-        'yaxis' : {
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 0.01,
-            'tickcolor': '#000'
+        yaxis = {
+            "title": "PROPORTION",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 0.01,
+            "tickcolor": "#000"
         },
-    }
+    )
 
     fig = go.Figure(data=data, layout=layout)
+    
     offline_py.iplot(fig)
 
 def plot_diff_dom(c_df, nc_df):
-    trace_diff = go.Bar(
+    
+    trace = go.Bar(
         x = c_df["dom"].values,
         y = (nc_df["count"].values / nc_df["count"].sum()) - (c_df["count"].values / c_df["count"].sum()),
     )
 
-    data = [trace_diff]
-    layout = {
-        'xaxis' : {
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 1.0,
-            'tickcolor': '#000'
+    data = [trace]
+    
+    layout = go.Layout(
+        title = "DIFFERENCE BETWEEN NON-CHURN AND CHURN USERS <br> DAY DISTRIBUTION",
+        xaxis = {
+            "title": "DAY OF MONTH",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 1.0,
+            "tickcolor": "#000"
         },
-        'yaxis' : {
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 0.01,
-            'tickcolor': '#000'
+        yaxis = {
+            "title": "NON-CHURN PROPORTION MINUS <br> CHURN PROPORTION",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 0.01,
+            "tickcolor": "#000"
         },
-    }
+    )
 
     fig = go.Figure(data=data, layout=layout)
     offline_py.iplot(fig)
 
 def plot_song_len(df):
+    
     x = df["length"].dropna().values
     x = np.array(x)
     x = sorted(x)
+    
     q1, q3 = np.quantile(x, 0.25), np.quantile(x, 0.75)
 
-    trace1 = go.Histogram(
+    trace = go.Histogram(
         x = x,
         xbins = dict(
             start = q1,
@@ -341,9 +405,21 @@ def plot_song_len(df):
             size = 0.1
         )
     )
-    data = [trace1]
+    
+    layout = go.Layout(
+        title = "SONG LENGTH DISTRIBUTION",
+        xaxis = {
+            "title": "LENGTH OF SONG <br> (IN SECONDS)",
+        },
+        yaxis = {
+            "title": "COUNT",
+        },
+    )
+    
+    data = [trace]
 
-    fig = go.Figure(data = data)
+    fig = go.Figure(data = data, layout = layout)
+    
     offline_py.iplot(fig)
 
 def plot_devices(df):
@@ -353,7 +429,17 @@ def plot_devices(df):
     )
 
     data = [trace]
+    
+    layout = go.Layout(
+        title = "TYPE OF DEVICES USED",
+        xaxis = {
+            "title": "DEVICE TYPE",
+        },
+        yaxis = {
+            "title": "PROPORTION",
+        },
+    )
 
-    fig = go.Figure(data = data)
+    fig = go.Figure(data = data, layout = layout)
 
     offline_py.iplot(fig)
