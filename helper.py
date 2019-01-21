@@ -17,63 +17,25 @@ def spark_shape(df):
     shape = (n_rows, n_cols)
     return shape
 
-def gender_dist(df):
-    """
-    Plots distribution of gender based on churn
-    """
-    trace_c = go.Bar(
-        x = df.query(' isChurn ')['gender'],
-        y = df.query(' isChurn ')['count'] / (df.query(' isChurn ')['count'].sum()),
-        name = "Churn",
-        marker = {
-            'color': 'rgb(240, 133, 54)'
-        }
-    )
-
-    trace_nc = go.Bar(
-        x = df.query(' not isChurn ')['gender'],
-        y = df.query(' not isChurn ')['count'] / (df.query(' not isChurn ')['count'].sum()),
-        name = "Not Churn",
-        marker = {
-            'color': 'rgb(55, 119, 175)'
-        }
-    )
-
-    data = [trace_c, trace_nc]
-
-    layout = go.Layout(
-        title = "DISTRIBUTION OF GENDER <br> BASED ON CHURN",
-        xaxis = {
-            'title': 'GENDER'
-        },
-        yaxis = {
-            'title': "PROPORTION"
-        },
-        barmode = 'group'
-    )
-
-    fig = go.Figure(data = data, layout = layout)
-    offline_py.iplot(fig)
-
 def page_dist(df):
     """
     Plots distribution of pages
     """
     trace0 = go.Bar(
         x = df["page"].values,
-        y = df["count"].values / df["count"].values.sum()
+        y = 100 * df["count"].values / df["count"].values.sum()
     )
 
     data = [trace0]
     layout = go.Layout(
         title = "DISTRIBUTION OF <br> PAGES",
         xaxis = {
-            'title': "TYPE OF <br> PAGE",
-            'automargin': True
+            "title": "TYPE OF <br> PAGE",
+            "automargin": True
         },
         yaxis = {
-            'title': "PROPORTION",
-            'automargin': True,
+            "title": "PERCENTAGE",
+            "automargin": True,
         }
     )
 
@@ -90,7 +52,7 @@ def page_dist_2(df):
     
     trace0 = go.Bar(
         x = df.query(' page != "NextSong" ')["page"].values,
-        y = df.query(' page != "NextSong" ')["count"].values / df.query(' page != "NextSong" ')["count"].values.sum()
+        y = 100 * df.query(' page != "NextSong" ')["count"].values / df.query(' page != "NextSong" ')["count"].values.sum()
     )
 
     data = [trace0]
@@ -98,61 +60,99 @@ def page_dist_2(df):
     layout = go.Layout(
         title = "DISTRIBUTION OF <br> PAGES",
         xaxis = {
-            'title': "TYPE OF <br> PAGE",
-            'automargin': True
+            "title": "TYPE OF <br> PAGE",
+            "automargin": True
         },
         yaxis = {
-            'title': "PROPORTION",
-            'automargin': True,
+            "title": "PERCENTAGE",
+            "automargin": True,
         },
     )
 
     fig = go.Figure(data = data, layout = layout)
 
     offline_py.iplot(fig)
-    
-#     pio.write_image(fig, "img/page_dist2.png")
-    
+
+def gender_dist(df):
+    """
+    Plots distribution of gender based on churn
+    """
+    trace_c = go.Bar(
+        x = df.query(' isChurn ')["gender"],
+        y = 100 * df.query(' isChurn ')["count"] / (df.query(' isChurn ')["count"].sum()),
+        name = "Churn",
+        marker = {
+            "color": "rgb(240, 133, 54)"
+        }
+    )
+
+    trace_nc = go.Bar(
+        x = df.query(' not isChurn ')["gender"],
+        y = 100 * df.query(' not isChurn ')["count"] / (df.query(' not isChurn ')["count"].sum()),
+        name = "Not Churn",
+        marker = {
+            "color": "rgb(55, 119, 175)",
+        }
+    )
+
+    data = [trace_c, trace_nc]
+
+    layout = go.Layout(
+        title = "DISTRIBUTION OF GENDER <br> BASED ON CHURN",
+        xaxis = {
+            "title": "GENDER"
+        },
+        yaxis = {
+            "title": "PERCENTAGE"
+        },
+        barmode = "group"
+    )
+
+    fig = go.Figure(data = data, layout = layout)
+    offline_py.iplot(fig)
+
 def page_dist_3(c_df, nc_df):
     """
     Plots distribution of pages visited based on churn
     """
     
     trace_c = go.Bar(
-        x = c_df['page'],
-        y = c_df['cFreq'],
+        x = c_df["page"],
+        y = c_df["pCount"],
         name = "Churn",
         marker = {
-            'color': 'rgb(240, 133, 54)'
+            "color": "rgb(240, 133, 54)"
         }
     )
 
     trace_nc = go.Bar(
-        x = nc_df['page'],
-        y = nc_df['ncFreq'],
+        x = nc_df["page"],
+        y = nc_df["pCount"],
         name = "Not Churn",
         marker = {
-            'color': 'rgb(55, 119, 175)'
+            "color": "rgb(55, 119, 175)"
         }
     )
 
     data = [trace_c, trace_nc]
     layout = go.Layout(
         title = "DISTRIBUTION OF <br> PAGES",
-        barmode = 'group',
+        barmode = "group",
         xaxis = {
-            'title': "TYPE OF <br> PAGE",
-            'automargin': True,
+            "title": "TYPE OF <br> PAGE",
+            "automargin": True,
         },
         yaxis = {
-            'title': "COUNT",
-            'automargin': True,
+            "title": "PERCENTAGE",
+            "automargin": True,
         },
     )
 
     fig = go.Figure(data = data, layout = layout)
 
     offline_py.iplot(fig)
+
+
 
 def plot_levels(df):
     """
@@ -161,16 +161,16 @@ def plot_levels(df):
     """
     trace = go.Bar(
         x = df["level"].value_counts().index,
-        y = df["level"].value_counts().values / df.shape[0]
+        y = 100 * df["level"].value_counts().values / df.shape[0]
     )
     
     layout = go.Layout(
         title = "DISTRIBUTION OF LEVEL",
         xaxis = {
-            'title': 'LEVEL',
+            "title": "LEVEL",
         },
         yaxis = {
-            'title': 'PROPORTION',
+            "title": "PERCENTAGE",
         },
     )
     data = [trace]
@@ -185,7 +185,7 @@ def plot_hod(c_df, nc_df):
         y = c_df["count"].values / c_df["count"].sum(),
         name = "Churn",
         marker = {
-            'color': 'rgb(240, 133, 54)'
+            "color": "rgb(240, 133, 54)"
         }
     )
     trace_nc = go.Bar(
@@ -193,40 +193,40 @@ def plot_hod(c_df, nc_df):
         y = nc_df["count"].values / nc_df["count"].sum(),
         name = "Not churn",
         marker = {
-            'color': 'rgb(55, 119, 175)'
+            "color": "rgb(55, 119, 175)"
         }
     )
 
     data = [trace_c, trace_nc]
 
     layout = go.Layout(
-        title = 'DISTRIBUTION OF HOUR <br> BASED ON CHURN',
-        barmode = 'group',
+        title = "DISTRIBUTION OF HOUR <br> BASED ON CHURN",
+        barmode = "group",
         xaxis = {
-            'title': 'HOUR',
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 1.0,
-            'tickcolor': '#000'
+            "title": "HOUR",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 1.0,
+            "tickcolor": "#000"
         },
         yaxis = {
-            'title': 'PROPORTION',
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 0.01,
-            'tickcolor': '#000'
+            "title": "PROPORTION",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 0.01,
+            "tickcolor": "#000"
         },
         shapes = [
             {
-                'type': 'rect',
-                'x0': 6.5,
-                'y0': 0.001,
-                'x1': 18.5,
-                'y1': 0.04,
-                'line': {
-                    'color': 'rgb(255, 0, 0)',
+                "type": "rect",
+                "x0": 6.5,
+                "y0": 0.001,
+                "x1": 18.5,
+                "y1": 0.04,
+                "line": {
+                    "color": "rgb(255, 0, 0)",
                 }
             }
         ],
@@ -246,21 +246,21 @@ def plot_diff_hod(c_df, nc_df):
     layout = go.Layout(
         title = "DIFFERENCE BETWEEN NON-CHURN AND CHURN USERS <br> HOUR DISTRIBUTION",
         xaxis = {
-            'title': 'HOUR',
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 1.0,
-            'tickcolor': '#000'
+            "title": "HOUR",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 1.0,
+            "tickcolor": "#000"
         },
         yaxis = {
-            'automargin': True,
-            'title': 'NON-CHURN PROPORTION MINUS <br> CHURN PROPORTION',
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 0.001,
-            'tickcolor': '#000'
+            "automargin": True,
+            "title": "NON-CHURN PROPORTION MINUS <br> CHURN PROPORTION",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 0.001,
+            "tickcolor": "#000"
         },
     )
 
@@ -271,40 +271,40 @@ def plot_diff_hod(c_df, nc_df):
 def plot_dow(c_df, nc_df):
     trace_c = go.Bar(
         x = c_df["dow"].values,
-        y = c_df["count"].values / c_df["count"].sum(),
+        y = 100 * c_df["count"].values / c_df["count"].sum(),
         name = "Churn",
         marker = {
-            'color': 'rgb(240, 133, 54)'
+            "color": "rgb(240, 133, 54)"
         }
     )
     trace_nc = go.Bar(
         x = nc_df["dow"].values,
-        y = nc_df["count"].values / nc_df["count"].sum(),
+        y = 100 * nc_df["count"].values / nc_df["count"].sum(),
         name = "Not churn",
         marker = {
-            'color': 'rgb(55, 119, 175)'
+            "color": "rgb(55, 119, 175)"
         }
     )
 
     data = [trace_c, trace_nc]
     layout = go.Layout(
-        barmode = 'group',
-        title = 'DISTRIBUTION OF WEEKDAY <br> BASED ON CHURN',
+        barmode = "group",
+        title = "DISTRIBUTION OF WEEKDAY <br> BASED ON CHURN",
         xaxis = {
-            'title': 'WEEKDAY (0 IS MONDAY)',
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 1.0,
-            'tickcolor': '#000'
+            "title": "WEEKDAY (0 IS MONDAY)",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 1.0,
+            "tickcolor": "#000"
         },
         yaxis = {
-            'title': 'PROPORTION',
-            'tickmode': 'linear',
-            'ticks': 'outside',
-            'tick0': 0,
-            'dtick': 0.02,
-            'tickcolor': '#000'
+            "title": "PERCENTAGE",
+            "tickmode": "linear",
+            "ticks": "outside",
+            "tick0": 0,
+            "dtick": 2,
+            "tickcolor": "#000"
         },
     )
 
@@ -318,7 +318,7 @@ def plot_dom(c_df, nc_df):
         y = c_df["count"].values / c_df["count"].sum(),
         name = "Churn",
         marker = {
-            'color': 'rgb(240, 133, 54)'
+            "color": "rgb(240, 133, 54)"
         }
     )
     trace_nc = go.Bar(
@@ -326,7 +326,7 @@ def plot_dom(c_df, nc_df):
         y = nc_df["count"].values / nc_df["count"].sum(),
         name = "Not churn",
         marker = {
-            'color': 'rgb(55, 119, 175)'
+            "color": "rgb(55, 119, 175)"
         }
     )
 
@@ -425,19 +425,47 @@ def plot_song_len(df):
 def plot_devices(df):
     trace = go.Bar(
         x = df["device"].values,
-        y = df["count"].values / (df["count"].values.sum())
+        y = 100 * df["count"].values / (df["count"].values.sum())
     )
 
     data = [trace]
     
     layout = go.Layout(
-        title = "TYPE OF DEVICES USED",
+        title = "TYPES OF DEVICE USED",
         xaxis = {
             "title": "DEVICE TYPE",
         },
         yaxis = {
-            "title": "PROPORTION",
+            "title": "PERCENTAGE",
         },
+    )
+
+    fig = go.Figure(data = data, layout = layout)
+
+    offline_py.iplot(fig)
+
+def churn_dist(df):
+    
+    trace = go.Bar(
+        x = [bool(df["isChurn"].values[0]), bool(df["isChurn"].values[1])],
+        y = 100 * df["count"].values / \
+        (df["count"].values.sum())
+    )
+
+    data = [trace]
+
+    layout = go.Layout(
+        title = "Distribution of Churn",
+        xaxis = {
+            "title": "CHURN STATUS",
+            "tick0": 0,
+            "dtick": 1,
+        },
+        yaxis = {
+            "title": "PERCENTAGE",
+            "tick0": 0,
+            "dtick": 20,
+        }
     )
 
     fig = go.Figure(data = data, layout = layout)
