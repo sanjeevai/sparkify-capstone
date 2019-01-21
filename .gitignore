@@ -9,3 +9,6 @@ __pycache__/*
 
 # notes
 tests*
+
+# notebook's export
+Sparkify.html
