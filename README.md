@@ -18,7 +18,7 @@
   - [Implementation](#implement)
   - [Refinement](#refine)
 - [Results](#res)
-  - [Model Evaluation and Justification](#eval)
+  - [Model Evaluation and Validation](#eval)
   - [Justification](#justify)
 - [Conclusion](#conclusion)
   - [Reflection](#reflect)
@@ -105,6 +105,8 @@ I have used `toPandas()` method above because 18 columns cannot be displayed in
 a user friendly way by PySpark's built-in `.show()` method.
 
 **Feature Space**
+
+**Univariate Plots**
 
 1. Distribution of pages
 
@@ -201,7 +203,7 @@ For `page` column, we have 22 distinct values:
 21. Thumbs Up
 22. Upgrade
 
-The fifth is the one we are interested in identifying. Our target variable is
+We are interested in the fifth category. Our target variable is
 `isChurn`. It is `1` if the user visited `Cancellation Confirmation` page and
 `0` otherwise.
 
@@ -259,100 +261,6 @@ The ones which we'll be using are:
 
 ### Refinement
 
-<a id='data'></a>
-
-### Data
-
-Every time a user interacts with the service: whether playing songs, logging
-out, liking a song with a thumbs up, hearing an ad or downgrading their service,
-**it generates data.**
-
-All this data contains the **key insights** for keeping the users happy and helping
-the business thrive. It's my responsibility on the data team to predict which users are
-at **risk to churn:** either **downgrading** from premium to free tier or **cancelling**
-their service altogether. If I can accurately identify these users before they
-leave, this business can offer them **discounts** and **incentives**, potentially saving
-the business **millions in revenue.**
-
-To tackle this project we are provided with a large data set ( 12 GB if
-deploying Spark cluster on **AWS**, 128 MB subset if working on **local machine** ) that contains the
-events we just described.
-
-This project is all about demonstrating mastery of Spark's **scalable data
-manipulation** and machine learning. After completing this project, we'll have
-built a useful model with a massive data set. We'll be able to apply these same
-skills with Spark to wrangle data and build models in our role as a data
-scientist.
-
-This repository contains a **tiny** subset **(128MB)** of the **full** available
-dataset **(12GB).** It contains information about each user like which page
-they were on, location, gender, timestamp, etc.
-
-For more information about feature space, see _metadata.xlsx_ in **data** directory.
-
-<a id='motive'></a>
-
-## Project Motivation
-
-You'll learn how to manipulate large and realistic datasets with Spark to
-engineer relevant features for **predicting churn.** You'll learn how to use
-Spark ML library to build machine learning models with large datasets, far beyond what
-could be done with **non-distributed technologies like scikit-learn.**
-
-Predicting churn rates is a challenging and common problem that data scientists
-and analysts regularly encounter in any customer-facing business. Additionally,
-the ability to efficiently manipulate large datasets with Spark is one of the
-highest-demand skills in the field of data.
-
-<a id='components'></a>
-
-## Project Components
-
-There are three parts in this project:
-
-<a id='analysis'></a>
-
-### Exploratory Data Analysis
-
-#### Data Cleaning
-
-<img src="./img/nan_cols.png" alt="nan_cols_count" width="100%">
-
-
-
-
-
-#### Data Analysis
-
-#### Univariate Plots
-
-
-
-### Feature Engineering
-
-The following user level features were created from the available input data.
-
-1. One-hot encoding gender variable to create two extra columns and then dropping the original column
-2. Number of songs
-3. Number of sessions
-4. Number of songs per session
-5. Average time spent per session
-6. Level: paid or free
-7. Proportion of page visits for each page type
-8. Artist count
-9. Region based on midwest, northeast, south and west
-
-<a id='model'></a>
-
-### Modelling
-
-The following classification models from PySpark ML library were used for predicting `isChurn` variable as
-the label.
-
-1. Logistic Regression
-2. Random Forest Classifier
-3. Gradient Boosting Tree Classifier
-
 Since, the class distribution is highly imbalance, we will perform random
 undersampling to optimze our **F1 metric**.
 
@@ -365,26 +273,37 @@ Comparison of average metrics before and after undersampling.
 
 |Model|Average Metrics Before|Average Metrics After|
 |-----|----------------------|---------------------|
-|Logistic Regression|**0.6984557614309854,** 0.6982284537224299, 0.6924853268664748|**0.5217032967032966,** 0.4673174435216339, 0.44999999999999996|
-|Random Forest Classifier|**0.7110022295365749,** 0.7038627655886889, 0.6896309233641899|**0.5861457961276473,** 0.5565934065934066, 0.5839222769567597|
-|Gradient Boosting Tree Classifier|**0.7077754534020451,** 0.7018305605049677, 0.6630494284862877|**0.5627631578947369,** 0.5500510688173244, 0.5486642743221691|
+|Logistic Regression|**0.717,** 0.684, 0.681|**0.486,** 0.344, 0.192|
+|Random Forest Classifier|**0.710,** 0.699, 0.698|**0.540,** 0.537, 0.499|
+|Gradient Boosting Tree Classifier|**0.710,** 0.705, 0.684|**0.629,** 0.627, 0.616|
 
-<a id='files'></a>
+    GBTClassifier provided a fairly good F1 score of 0.64 after undersampling.
 
-## Files
+<a id="res"></a>
 
-<pre>
+## IV. Results
 
-</pre>
-# Sparkify-capstone
-Data Analysis to Identify Customer Churn for fictional music service(like Spotify)
+<a id="eval"></a>
 
-References
-- getting dummies like pandas in pySpark - https://stackoverflow.com/questions/42805663/e-num-get-dummies-in-pySpark
-- using multiple if-else conditions in list comprehension - https://stackoverflow.com/questions/9987483/elif-in-list-comprehension-conditionals
-- state to region - https://www.businessinsider.in/The-US-government-clearly-defines-the-Northeast-Midwest-South-and-West-heres-where-your-state-falls/THE-MIDWEST/slideshow/63954185.cms
-- deleting columns in pySpark - https://stackoverflow.com/questions/29600673/how-to-delete-columns-in-pySpark-dataframe
+### Model Evaluation and Validation
 
-Divide states into regions -
-https://www.businessinsider.in/The-US-government-clearly-defines-the-Northeast-Midwest-South-and-West-heres-where-your-state-falls/articleshow/63954190.cms
-Write single CSV file using spark-csv- https://stackoverflow.com/questions/31674530/write-single-csv-file-using-spark-csv
+<a id="justify"></a>
+
+### Justification
+
+## V. Conclusion
+
+### Reflection
+
+### Improvement
+
+## VII. References
+
+- [Getting Pandas like dummies in PySpark](https://stackoverflow.com/questions/42805663/e-num-get-dummies-in-pySpark)
+
+- [Using multiple if-else conditions in list comprehension](https://stackoverflow.com/questions/9987483/elif-in-list-comprehension-conditionals)
+
+- [Classifying region based on U.S. State](https://www.businessinsider.in/The-US-government-clearly-defines-the-Northeast-Midwest-South-and-West-heres-where-your-state-falls/THE-MIDWEST/slideshow/63954185.cms)
+
+- [Write single CSV file (instead of batching) using
+  Spark](https://stackoverflow.com/questions/31674530/write-single-csv-file-using-spark-csv)
