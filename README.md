@@ -20,6 +20,8 @@
 - [Conclusion](#conclusion)
   - [Reflection](#reflect)
   - [Challenges](#challenges)
+- [Files](#files)
+- [Software and Libraries](#sw_lib)
 - [References](#refs)
 - [Acknowledgement](#ack)
 
@@ -313,7 +315,25 @@ Some of the challenges which I faced in this project are:
 - If you run this notebook on your local machine without any change, then it
   will take around an hour to run completely
 
-## V. References
+<a id="files"></a>
+
+## V. Files
+
+1. Folders gbtModel, lrModel and rfModel
+
+    Saved models before under-sampling
+2. Folders new_gbt_model, new_lr_model and new_rf_model
+
+    Saved models after under-sampling
+3. helper.py
+    Helper functions for Plotly visualisations
+
+## VI. Software and Libraries
+
+This project uses Python 3.6.6 and the necessary libraries are mentioned in
+_requirements.txt_ file.
+
+## VII. References
 
 - [Getting Pandas like dummies in PySpark](https://stackoverflow.com/questions/42805663/e-num-get-dummies-in-pySpark)
 
@@ -343,6 +363,6 @@ Some of the challenges which I faced in this project are:
 
 <a id="ack"></a>
 
-## VI. Acknowledgements
+## VIII. Acknowledgements
 
 Thanks to **Udacity** for providing such a challenging project to work on. At first, I was vexed with functional programming in Python, but the instructors were very clear in their approach. Now I am looking for more projects that are build atop Spark.
