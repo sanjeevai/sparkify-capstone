@@ -1,6 +1,6 @@
+# imports
 import numpy as np
 import plotly.graph_objs as go
-# import plotly.io as pio
 import plotly.offline as offline_py
 
 def spark_shape(df):
@@ -13,14 +13,23 @@ def spark_shape(df):
     Returns:
     shape tuple: Shape in tuple format (n_rows, n_cols)
     """
+
     n_rows, n_cols = df.count(), len(df.columns)
     shape = (n_rows, n_cols)
     return shape
 
 def page_dist(df):
     """
-    Plots distribution of pages
+    Plots distribution of pages without filtering anything from dataframe
+
+    Args:
+    df pandas.core.frame.DataFrame: Pandas dataframe with two columns - "page" 
+        and "count"
+
+    Returns:
+    None
     """
+
     trace0 = go.Bar(
         x = df["page"].values,
         y = 100 * df["count"].values / df["count"].values.sum()
@@ -42,17 +51,22 @@ def page_dist(df):
     fig = go.Figure(data = data, layout = layout)
 
     offline_py.iplot(fig)
-    
-#     pio.write_image(fig, "img/page_dist1.png")
 
 def page_dist_2(df):
     """
-    Plots distribution of pages column with `NextSong` value filtered.
+    Plots distribution of pages column with `NextSong` value filtered from data.
+
+    Args:
+    df pandas.core.frame.DataFrame: Same argument as function page_dist_2()
+
+    Returns:
+    None
     """
     
     trace0 = go.Bar(
         x = df.query(' page != "NextSong" ')["page"].values,
-        y = 100 * df.query(' page != "NextSong" ')["count"].values / df.query(' page != "NextSong" ')["count"].values.sum()
+        y = 100 * df.query(' page != "NextSong" ')["count"].values / \
+            df.query(' page != "NextSong" ')["count"].values.sum()
     )
 
     data = [trace0]
@@ -76,10 +90,19 @@ def page_dist_2(df):
 def gender_dist(df):
     """
     Plots distribution of gender based on churn
+
+    Args:
+    df pandas.core.frame.DataFrame: Dataframe with three columns- isChurn(bool),
+        gender(str) and count(int)
+
+    Returns:
+    None
     """
+
     trace_c = go.Bar(
         x = df.query(' isChurn ')["gender"],
-        y = 100 * df.query(' isChurn ')["count"] / (df.query(' isChurn ')["count"].sum()),
+        y = 100 * df.query(' isChurn ')["count"] / (df.query(' isChurn ') \
+            ["count"].sum()),
         name = "Churn",
         marker = {
             "color": "rgb(240, 133, 54)"
@@ -88,7 +111,8 @@ def gender_dist(df):
 
     trace_nc = go.Bar(
         x = df.query(' not isChurn ')["gender"],
-        y = 100 * df.query(' not isChurn ')["count"] / (df.query(' not isChurn ')["count"].sum()),
+        y = 100 * df.query(' not isChurn ')["count"] / \
+            (df.query(' not isChurn ')["count"].sum()),
         name = "Not Churn",
         marker = {
             "color": "rgb(55, 119, 175)",
@@ -114,6 +138,15 @@ def gender_dist(df):
 def page_dist_3(c_df, nc_df):
     """
     Plots distribution of pages visited based on churn
+
+    Args:
+    c_df pandas.core.frame.DataFrame: Pandas dataframe of churn user. Contains
+        three columns - page type, count and proportion
+    nc_df pandas.core.frame.DataFrame: Pandas dataframe of non-churn user. 
+        Contains three columns - page type, count and proportion
+
+    Returns:
+    None
     """
     
     trace_c = go.Bar(
@@ -135,6 +168,7 @@ def page_dist_3(c_df, nc_df):
     )
 
     data = [trace_c, trace_nc]
+    
     layout = go.Layout(
         title = "DISTRIBUTION OF <br> PAGES",
         barmode = "group",
@@ -158,7 +192,15 @@ def plot_levels(df):
     """
     Shows proportions of how many paid users churned and how many free users
     churned.
+
+    Args:
+    df pandas.core.frame.DataFrame: Pandas dataframe of one column - 
+        subscription status with two levels: paid and free
+
+    Returns:
+    None
     """
+
     trace = go.Bar(
         x = df["level"].value_counts().index,
         y = 100 * df["level"].value_counts().values / df.shape[0]
@@ -173,6 +215,7 @@ def plot_levels(df):
             "title": "PERCENTAGE",
         },
     )
+
     data = [trace]
     
     fig = go.Figure(data = data, layout = layout)
@@ -180,6 +223,21 @@ def plot_levels(df):
     offline_py.iplot(fig)
 
 def plot_hod(c_df, nc_df):
+    """
+    Plots hour distribution based on churn status of user
+
+    Args:
+    c_df pandas.core.frame.DataFrame: Data frame of churn users with two columns
+        - "hour" with hour value and "count" with how many time events occurred at
+        that hour 
+    nc_df pandas.core.frame.DataFrame: Data frame of non-churn users with two
+        columns - "hour" with hour value and "count" with how many time events
+        occurred at that hour
+    
+    Returns:
+    None
+    """
+
     trace_c = go.Bar(
         x = c_df["hour"].values,
         y = c_df["count"].values / c_df["count"].sum(),
@@ -237,14 +295,32 @@ def plot_hod(c_df, nc_df):
     offline_py.iplot(fig)
 
 def plot_diff_hod(c_df, nc_df):
+    """
+    Plots difference of hour distribution based on churn status of user
+
+    Args:
+    c_df pandas.core.frame.DataFrame: Data frame of churn users with two columns
+        - "hour" with hour value and "count" with how many time events occurred at
+        that hour 
+    nc_df pandas.core.frame.DataFrame: Data frame of non-churn users with two
+        columns - "hour" with hour value and "count" with how many time events
+        occurred at that hour
+    
+    Returns:
+    None
+    """
+
     trace_diff = go.Bar(
         x = c_df["hour"].values,
-        y = (nc_df["count"].values / nc_df["count"].sum()) - (c_df["count"].values / c_df["count"].sum()),
+        y = (nc_df["count"].values / nc_df["count"].sum())  - \
+            (c_df["count"].values / c_df["count"].sum()),
     )
 
     data = [trace_diff]
+
     layout = go.Layout(
-        title = "DIFFERENCE BETWEEN NON-CHURN AND CHURN USERS <br> HOUR DISTRIBUTION",
+        title = "DIFFERENCE BETWEEN NON-CHURN AND CHURN USERS <br> \
+                 HOUR DISTRIBUTION",
         xaxis = {
             "title": "HOUR",
             "tickmode": "linear",
@@ -269,6 +345,21 @@ def plot_diff_hod(c_df, nc_df):
     offline_py.iplot(fig)
 
 def plot_dow(c_df, nc_df):
+    """
+    Plots distribution at week level based on churn status of the user
+
+    Args:
+    c_df pandas.core.frame.DataFrame: Data frame of churn users with two columns
+        - "dow" with weekday value(0 for Monday) and "count" with how many events 
+        occurred on that day
+    nc_df pandas.core.frame.DataFrame: Data frame of non-churn users with two
+        columns - "dom" with day value and "count" with how many events occurred 
+        on that day
+    
+    Returns:
+    None
+    """
+
     trace_c = go.Bar(
         x = c_df["dow"].values,
         y = 100 * c_df["count"].values / c_df["count"].sum(),
@@ -313,6 +404,20 @@ def plot_dow(c_df, nc_df):
     offline_py.iplot(fig)
 
 def plot_dom(c_df, nc_df):
+    """
+    Plots distribution at month level based on churn status of the user
+
+    Args:
+    c_df pandas.core.frame.DataFrame: Data frame of churn users with two columns
+        - "dom" with day number and "count" with how many events occurred on that 
+        day
+    nc_df pandas.core.frame.DataFrame: Data frame of non-churn users with two
+        columns - "dom" with day number value and "count" with how many events 
+        occurred on that day
+    
+    Returns:
+    None
+    """
     trace_c = go.Bar(
         x = c_df["dom"].values,
         y = c_df["count"].values / c_df["count"].sum(),
@@ -358,10 +463,26 @@ def plot_dom(c_df, nc_df):
     offline_py.iplot(fig)
 
 def plot_diff_dom(c_df, nc_df):
+    """
+    Plots difference in distributions at month level based on churn status of 
+    the user
+
+    Args:
+    c_df pandas.core.frame.DataFrame: Data frame of churn users with two columns
+        - "dom" with day number and "count" with how many events occurred on that 
+        day
+    nc_df pandas.core.frame.DataFrame: Data frame of non-churn users with two
+        columns - "dom" with day number value and "count" with how many events 
+        occurred on that day
+    
+    Returns:
+    None
+    """
     
     trace = go.Bar(
         x = c_df["dom"].values,
-        y = (nc_df["count"].values / nc_df["count"].sum()) - (c_df["count"].values / c_df["count"].sum()),
+        y = (nc_df["count"].values / nc_df["count"].sum()) - \
+            (c_df["count"].values / c_df["count"].sum()),
     )
 
     data = [trace]
@@ -387,10 +508,20 @@ def plot_diff_dom(c_df, nc_df):
     )
 
     fig = go.Figure(data=data, layout=layout)
+
     offline_py.iplot(fig)
 
 def plot_song_len(df):
-    
+    """
+    Plot distribution of song length
+
+    Args:
+    df pandas.core.frame.DataFrame: Dataframe with all features, it will extract
+    the length column, IQR and then plot a histogram with appropriate bin-width
+
+    Returns:
+    None
+    """
     x = df["length"].dropna().values
     x = np.array(x)
     x = sorted(x)
@@ -423,6 +554,16 @@ def plot_song_len(df):
     offline_py.iplot(fig)
 
 def plot_devices(df):
+    """
+    Plots distribution of device used for streaming
+
+    Args:
+    df pandas.core.frame.DataFrame: Dataframe with two columns- "device" with
+        device name and 'count" with how many that device was used.
+
+    Returns:
+    None
+    """
     trace = go.Bar(
         x = df["device"].values,
         y = 100 * df["count"].values / (df["count"].values.sum())
@@ -445,11 +586,17 @@ def plot_devices(df):
     offline_py.iplot(fig)
 
 def churn_dist(df):
-    
+    """
+    Plots the distribution of churn to explaing the imbalance in data set.
+
+    Args:
+    df pandas.core.frame.DataFrame: 
+    Returns:
+    None
+    """
     trace = go.Bar(
         x = [bool(df["isChurn"].values[0]), bool(df["isChurn"].values[1])],
-        y = 100 * df["count"].values / \
-        (df["count"].values.sum())
+        y = 100 * df["count"].values / (df["count"].values.sum())
     )
 
     data = [trace]
