@@ -329,10 +329,14 @@ Some of the challenges which I faced in this project are:
 
     Helper functions for Plotly visualisations
 
+<a id="sw_lib"></a>
+
 ## VI. Software and Libraries
 
 This project uses Python 3.6.6 and the necessary libraries are mentioned in
 _requirements.txt_ file.
+
+<a id="refs"></a>
 
 ## VII. References
 
