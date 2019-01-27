@@ -4,6 +4,8 @@
 
 ## Project: Analyzing Customer Churn with Spark
 
+## [Blog Version](https://medium.com/@sanjeevai/spark-for-big-data-43e1dfed21f2)
+
 ## Table of Contents
 
 - [Definition](#def)
