@@ -23,7 +23,7 @@
   - [Reflection](#reflect)
   - [Challenges](#challenges)
 - [Files](#files)
-- [Software and Libraries](#sw_lib)
+- [Software Requirements](#sw_reqs)
 - [References](#refs)
 - [Acknowledgement](#ack)
 
@@ -331,9 +331,9 @@ Some of the challenges which I faced in this project are:
 
     Helper functions for Plotly visualisations
 
-<a id="sw_lib"></a>
+<a id="sw_reqs"></a>
 
-## VI. Software and Libraries
+## VI. Software Requirements
 
 This project uses Python 3.6.6 and the necessary libraries are mentioned in
 _requirements.txt_ file.
