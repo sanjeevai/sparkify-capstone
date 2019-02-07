@@ -2,7 +2,7 @@
 
 ## Spark for Big Data
 
-## Project: Analyzing Customer Churn with Spark
+## Project: Analysing Customer Churn with PySpark
 
 ## [Blog Version](https://medium.com/@sanjeevai/spark-for-big-data-43e1dfed21f2)
 
